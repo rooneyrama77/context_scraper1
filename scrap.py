@@ -2,13 +2,13 @@ import urllib.request
 
 import json
 
-print("enter the query as single word eg:rogerfederer and not roger federer")
-
-print("Please mind your spaces")
+print("enter the query as word")
 
 name=input()
 
-link = "https://en.wikipedia.org/w/api.php?action=opensearch&search="+name+"&limit=10&format=json"
+name=name.replace(" ","")
+
+link = "https://en.wikipedia.org/w/api.php?action=opensearch&search="+name+"&limit=100&format=json"
 
 f = urllib.request.urlopen(link)
 
