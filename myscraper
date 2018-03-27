@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+import urllib.request
+import sys
+import json
+import requests
+name="";
+for arg in sys.argv:
+	name+=arg;
+
+name=name.replace("/home/boomskier/bin/myscraper","")
+print(name)
+link = "https://en.wikipedia.org/w/api.php?action=opensearch&search="+name+"&limit=100&format=json"
+
+f = urllib.request.urlopen(link)
+
+myfile = f.read().decode('utf8')
+
+x=json.loads(myfile)
+url="https://www.reddit.com/r/"+name+".json";
+r=requests.get(url,headers={'User-agent':'Chrome'})
+d=r.json()
+scrapedids = []
+for child in d['data']['children']:
+	scrapedids.append(child['data']['title'])
+
+
+print(', '.join(x[2]))
+print('Recent tags on the entered word')
+print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+for i in scrapedids:
+	print(i)
+print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+print('Do you want to write in file[Y/N]');
+fi=input();
+if fi=='Y':
+	fx=name+'.txt';
+	f=open(name,"w+");
+	f.write(', '.join(x[2]));
+	f.close();
+	print('Written in file');
+
